@@ -5,11 +5,10 @@
 // Définition
 const boutonVoyageHTML = document.querySelector(".btn-voyage");
 const localisationEpoqueHTML = document.querySelector(".localisation_epoque");
+const loaderEpoqueHTML = document.querySelector(".voyage_en_cours");
 const listeArtefactHTML = document.querySelector(".liste_artefacts");
 const formChoixEpoqueHtml = document.querySelector(".form__choix_epoque");
-const formRechercheArtefact = document.querySelector(
-  ".form__recherche_artefact"
-);
+const formRechercheArtefact = document.querySelector(".form__recherche_artefact");
 
 const epoques = {
   romaine: "Romaine",
@@ -31,8 +30,7 @@ function generationNombreAleatoireEntre(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const afficherDestination = (nomEpoque) =>
-  (localisationEpoqueHTML.textContent = nomEpoque);
+const afficherDestination = (nomEpoque) => (localisationEpoqueHTML.textContent = nomEpoque);
 
 // Execution
 formChoixEpoqueHtml.addEventListener("submit", (event) => {
@@ -66,14 +64,31 @@ let nomEpoqueActuelle;
 
 creerLesChoixEpoque(epoques);
 
-// Fonction appelée plus haut quand le formulaire de voyage temporel est soumis
-// et qu'une époque de destination du voyage temporel a été choisi
-function quandEpoqueChoisie(nomEpoque) {
-  nomEpoqueActuelle = nomEpoque;
-  // Utilisation de votre fonction voyagerTemps
-}
+// Exercice 1 : Le Téléporteur Temporel
 
-// Fonction appelée plus haut quand le formulaire de recherche d'artefact est soumis
-function quandRechercheArtefact(artefact) {
-  // Utilisation de votre fonction collecterArtefact
-}
+/**
+ * Fonction pour simuler un voyage temporel.
+ * @param {string} destination - Époque de destination
+ * @param {Function} callback  - Fonction de rappel à exécuter une fois le voyage terminé
+ */
+const voyagerTemps = (destination, callback) => {
+  setTimeout(() => {
+    callback(destination);
+  }, generationNombreAleatoireEntre(1000, 3000));
+};
+
+/**
+ * Fonction déclenchée après la soumission du formulaire de voyage temporel.
+ * Elle met à jour l'époque et gère l'affichage du loader pendant le voyage.
+ * @param {string} nomEpoque - Époque sélectionnée
+ */
+const quandEpoqueChoisie = (nomEpoque) => {
+  nomEpoqueActuelle = nomEpoque;
+  localisationEpoqueHTML.style.display = "none";
+  loaderEpoqueHTML.style.display = "inline-block";
+  voyagerTemps(nomEpoqueActuelle, (epoque) => {
+    afficherDestination(epoque);
+    loaderEpoqueHTML.style.display = "none";
+    localisationEpoqueHTML.style.display = "inline-block";
+  });
+};
