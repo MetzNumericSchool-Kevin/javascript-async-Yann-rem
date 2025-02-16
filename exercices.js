@@ -131,3 +131,56 @@ const quandRechercheArtefact = (artefact) => {
       : afficherRechercheArtefact({ ...artefactInfos, success: false }); // Échec (explicite)
   });
 };
+
+// Exercice 3 : La Mission Temporelle Complexe
+
+/**
+ * Fonction pour afficher un message indiquant si la collecte d'un artefact a réussi ou échoué.
+ * La réussite ou l'échec est déterminé aléatoirement.
+ *
+ * @param {string} artefact - Artefact à collecter
+ * @param {string} epoque   - Époque
+ */
+const logCollecte = (artefact, epoque) => {
+  console.log(`${Math.random() >= 0.5 ? "✅" : "❌"} ${artefact} (Époque ${epoque})`);
+};
+
+/**
+ * Fonction pour simuler une mission temporelle complexe avec des étapes imbriquées.
+ * L'objectif est de reproduire le problème du "callback hell".
+ */
+const missionTemporelleComplexe = () => {
+  let epoqueActuelle = null;
+  console.log("🕰️ Début de la mission temporelle...");
+
+  // Étape 1 : Voyager à l'époque médiévale
+  voyagerTemps("Médiévale", (epoque) => {
+    epoqueActuelle = epoque;
+    console.log(`📍 Arrivé à l'époque ${epoque}`);
+
+    // Étape 2 : Collecter une épée de chevalier
+    collecterArtefact("Épée de chevalier", (artefact) => {
+      logCollecte(artefact, epoqueActuelle);
+
+      // Étape 3 : Voyager à l'époque Romaine
+      voyagerTemps("Romaine", (epoque) => {
+        epoqueActuelle = epoque;
+        console.log(`📍 Arrivé à l'époque ${epoque}`);
+
+        // Étape 4 : Collecter un bouclier romain
+        collecterArtefact("Bouclier romain", (artefact) => {
+          logCollecte(artefact, epoqueActuelle);
+
+          // Étape 5 : Collecter une épée romaine
+          collecterArtefact("Épée romaine", (artefact) => {
+            logCollecte(artefact, epoqueActuelle);
+
+            console.log("🏁 Fin de la mission temporelle");
+          });
+        });
+      });
+    });
+  });
+};
+
+missionTemporelleComplexe();
