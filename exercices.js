@@ -268,4 +268,58 @@ const missionTemporelleComplexe2 = () => {
     .then(() => console.log("🏁 Fin de la mission temporelle"));
 };
 
-missionTemporelleComplexe2();
+// missionTemporelleComplexe2();
+
+// Exercice 5 : La Mission Finale Asynchrone
+
+/**
+ * Fonction pour simuler une mission temporelle complexe.
+ * Utilise async/await pour gérer les étapes de manière séquentielle.
+ */
+// const missionTemporelleComplexe3 = async () => {
+//   let epoque = null;
+//   console.log("🕰️ Début de la mission temporelle...");
+
+//   try {
+//     epoque = await voyagerTemps2("Médiévale");
+//     await collecterArtefact2("Épée de chevalier", epoque);
+//     epoque = await voyagerTemps2("Romaine");
+//     const artefactInfos = await collecterArtefact2("Bouclier romain", epoque);
+//     epoque = artefactInfos.epoque;
+//     await collecterArtefact2("Épée romaine", epoque);
+//     console.log("🏁 Fin de la mission temporelle");
+//   } catch (erreur) {
+//     console.error(erreur.message);
+//   }
+// };
+
+const missionTemporelleComplexe3 = async () => {
+  let epoque = null;
+  console.log("🕰️ Début de la mission temporelle...");
+  epoque = await voyagerTemps2("Médiévale");
+
+  try {
+    await collecterArtefact2("Épée de chevalier", epoque);
+  } catch (erreur) {
+    console.error(erreur.message);
+  }
+
+  epoque = await voyagerTemps2("Romaine");
+
+  try {
+    const artefactInfos = await collecterArtefact2("Bouclier romain", epoque);
+    epoque = artefactInfos.epoque;
+  } catch (erreur) {
+    console.error(erreur.message);
+  }
+
+  try {
+    await collecterArtefact2("Épée romaine", epoque);
+  } catch (erreur) {
+    console.error(erreur.message);
+  }
+
+  console.log("🏁 Fin de la mission temporelle");
+};
+
+missionTemporelleComplexe3();
