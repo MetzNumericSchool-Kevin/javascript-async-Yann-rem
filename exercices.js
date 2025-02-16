@@ -183,4 +183,89 @@ const missionTemporelleComplexe = () => {
   });
 };
 
-missionTemporelleComplexe();
+// missionTemporelleComplexe();
+
+// Exercice 4 : Je te promet des voyages temporels sans tracas !
+
+/**
+ * Fonction pour simuler un voyage temporel.
+ * La promesse est résolue après un délai aléatoire.
+ *
+ * @param {string} destination - Époque de destination
+ * @returns {Promise<string>}  - Promesse qui se résout avec la destination atteinte
+ */
+const voyagerTemps2 = (destination) => {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      console.log(`📍 Arrivé à l'époque ${destination}`);
+      resolve(destination);
+    }, generationNombreAleatoireEntre(1000, 3000));
+  });
+};
+
+/**
+ * Fonction pour simuler la collecte d'un artefact.
+ * La collecte réussit ou échoue de manière aléatoire.
+ *
+ * @param {string} artefact                                 - Artefact à collecter
+ * @param {string} epoque                                   - Époque
+ * @returns {Promise<{ artefact: string, epoque: string }>} - Promesse qui se résout avec une collecte réussie, sinon rejet avec une erreur.
+ */
+const collecterArtefact2 = (artefact, epoque) => {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      if (Math.random() >= 0.5) {
+        console.log(`✅ ${artefact} (Époque ${epoque})`);
+        resolve({ artefact, epoque });
+      } else {
+        reject(new Error(`❌ ${artefact} (Époque ${epoque})`));
+      }
+    }, generationNombreAleatoireEntre(1000, 3000));
+  });
+};
+
+/**
+ * Fonction pour simuler une mission temporelle complexe.
+ * Utilise des promesses chaînées pour gérer les voyages et les collectes de manière asynchrone.
+ */
+// const missionTemporelleComplexe2 = () => {
+//   console.log("🕰️ Début de la mission temporelle...");
+//   voyagerTemps2("Médiévale")
+//     .then((epoque) => collecterArtefact2("Épée de chevalier", epoque))
+//     .then(() => voyagerTemps2("Romaine"))
+//     .then((epoque) => collecterArtefact2("Bouclier romain", epoque))
+//     .then(({ epoque }) => collecterArtefact2("Épée romaine", epoque))
+//     .then(() => console.log("🏁 Fin de la mission temporelle"))
+//     .catch((erreur) => console.error(erreur.message));
+// };
+
+/**
+ * Fonction pour simuler une mission temporelle complexe.
+ * Utilise des promesses chaînées pour gérer les voyages et les collectes de manière asynchrone.
+ */
+const missionTemporelleComplexe2 = () => {
+  console.log("⏳ Début de la mission temporelle...");
+  voyagerTemps2("Médiévale")
+    .then((epoque) =>
+      collecterArtefact2("Épée de chevalier", epoque).catch((erreur) => {
+        console.error(erreur.message);
+        return null;
+      })
+    )
+    .then(() => voyagerTemps2("Romaine"))
+    .then((epoque) =>
+      collecterArtefact2("Bouclier romain", epoque).catch((erreur) => {
+        console.error(erreur.message);
+        return null;
+      })
+    )
+    .then(() =>
+      collecterArtefact2("Épée romaine", "Romaine").catch((erreur) => {
+        console.error(erreur.message);
+        return null;
+      })
+    )
+    .then(() => console.log("🏁 Fin de la mission temporelle"));
+};
+
+missionTemporelleComplexe2();
