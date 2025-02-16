@@ -6,6 +6,7 @@
 const boutonVoyageHTML = document.querySelector(".btn-voyage");
 const localisationEpoqueHTML = document.querySelector(".localisation_epoque");
 const loaderEpoqueHTML = document.querySelector(".voyage_en_cours");
+const loaderArtefactHTML = document.querySelector(".recherche_en_cours");
 const listeArtefactHTML = document.querySelector(".liste_artefacts");
 const formChoixEpoqueHtml = document.querySelector(".form__choix_epoque");
 const formRechercheArtefact = document.querySelector(".form__recherche_artefact");
@@ -48,6 +49,12 @@ formChoixEpoqueHtml.addEventListener("submit", (event) => {
 formRechercheArtefact.addEventListener("submit", (event) => {
   event.preventDefault();
   const artefact = new FormData(formRechercheArtefact).get("artefact");
+
+  if (!artefact) {
+    alert("Choisie un artefact à collecter !");
+    return;
+  }
+
   quandRechercheArtefact(artefact);
 });
 
@@ -60,7 +67,7 @@ const afficherRechercheArtefact = ({ artefact, epoque, success = true }) => {
 /**
  * Votre partie commence ici, la partie modifiable par vos soins
  */
-let nomEpoqueActuelle;
+let nomEpoqueActuelle = localisationEpoqueHTML.textContent;
 
 creerLesChoixEpoque(epoques);
 
@@ -90,5 +97,37 @@ const quandEpoqueChoisie = (nomEpoque) => {
     afficherDestination(epoque);
     loaderEpoqueHTML.style.display = "none";
     localisationEpoqueHTML.style.display = "inline-block";
+  });
+};
+
+// Exercice 2 : La Collecte d'Artefact Mystère
+
+/**
+ * Fonction pour simuler la collecte d'un artefact.
+ * @param {string} objet      - Artefact à collecter
+ * @param {Function} callback - Fonction de rappel à exécuter une fois l'artefact collecté
+ */
+const collecterArtefact = (nom, callback) => {
+  setTimeout(() => {
+    callback(nom);
+  }, generationNombreAleatoireEntre(1000, 3000));
+};
+
+/**
+ * Fonction déclenchée après la soumission du formulaire de recherche d'artefacts.
+ * Elle affiche un message indiquant si la collecte d'un artefact a réussi ou échoué.
+ * La réussite ou l'échec est déterminé aléatoirement.
+ *
+ * @param {string} artefact - Artefact recherché
+ */
+const quandRechercheArtefact = (artefact) => {
+  loaderArtefactHTML.style.display = "block";
+  collecterArtefact(artefact, (nomArtefact) => {
+    // Objet contenant les informations de l'artefact
+    const artefactInfos = { artefact: nomArtefact, epoque: nomEpoqueActuelle };
+    loaderArtefactHTML.style.display = "none";
+    Math.random() >= 0.5
+      ? afficherRechercheArtefact({ ...artefactInfos }) // Succès (par défaut)
+      : afficherRechercheArtefact({ ...artefactInfos, success: false }); // Échec (explicite)
   });
 };
