@@ -54,7 +54,7 @@ formRechercheArtefact.addEventListener("submit", (event) => {
 
 const afficherRechercheArtefact = ({ artefact, epoque, success = true }) => {
   const li = document.createElement("li");
-  li.textContent = `${success ? "✅" : "❌"} ${artefact} (Epoque ${epoque})`;
+  li.textContent = `${success ? "✅" : "❌"} ${artefact} (Époque ${epoque})`;
   listeArtefactHTML.appendChild(li);
 };
 
