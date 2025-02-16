@@ -11,12 +11,6 @@ const listeArtefactHTML = document.querySelector(".liste_artefacts");
 const formChoixEpoqueHtml = document.querySelector(".form__choix_epoque");
 const formRechercheArtefact = document.querySelector(".form__recherche_artefact");
 
-const epoques = {
-  romaine: "Romaine",
-  medievale: "Médievale",
-  jurassique: "Jurassique",
-};
-
 const creerLesChoixEpoque = (epoques) => {
   const selectHtml = formChoixEpoqueHtml.querySelector("select");
   Object.entries(epoques).forEach(([id_epoque, nom_epoque]) => {
@@ -68,8 +62,6 @@ const afficherRechercheArtefact = ({ artefact, epoque, success = true }) => {
  * Votre partie commence ici, la partie modifiable par vos soins
  */
 let nomEpoqueActuelle = localisationEpoqueHTML.textContent;
-
-creerLesChoixEpoque(epoques);
 
 // Exercice 1 : Le Téléporteur Temporel
 
@@ -323,3 +315,12 @@ const missionTemporelleComplexe3 = async () => {
 };
 
 missionTemporelleComplexe3();
+
+// Exercice 6 : Chargement asynchrone des époques
+
+fetch("../data/epoques.json")
+  .then((reponse) => reponse.json())
+  .then((data) => {
+    creerLesChoixEpoque(data);
+  })
+  .catch((erreur) => console.error(erreur));
