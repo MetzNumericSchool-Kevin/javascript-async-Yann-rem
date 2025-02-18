@@ -9,7 +9,9 @@ const loaderEpoqueHTML = document.querySelector(".voyage_en_cours");
 const loaderArtefactHTML = document.querySelector(".recherche_en_cours");
 const listeArtefactHTML = document.querySelector(".liste_artefacts");
 const formChoixEpoqueHtml = document.querySelector(".form__choix_epoque");
-const formRechercheArtefact = document.querySelector(".form__recherche_artefact");
+const formRechercheArtefact = document.querySelector(
+  ".form__recherche_artefact"
+);
 
 const creerLesChoixEpoque = (epoques) => {
   const selectHtml = formChoixEpoqueHtml.querySelector("select");
@@ -25,7 +27,8 @@ function generationNombreAleatoireEntre(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
-const afficherDestination = (nomEpoque) => (localisationEpoqueHTML.textContent = nomEpoque);
+const afficherDestination = (nomEpoque) =>
+  (localisationEpoqueHTML.textContent = nomEpoque);
 
 // Execution
 formChoixEpoqueHtml.addEventListener("submit", (event) => {
@@ -134,7 +137,9 @@ const quandRechercheArtefact = (artefact) => {
  * @param {string} epoque   - Époque
  */
 const logCollecte = (artefact, epoque) => {
-  console.log(`${Math.random() >= 0.5 ? "✅" : "❌"} ${artefact} (Époque ${epoque})`);
+  console.log(
+    `${Math.random() >= 0.5 ? "✅" : "❌"} ${artefact} (Époque ${epoque})`
+  );
 };
 
 /**
@@ -241,18 +246,18 @@ const missionTemporelleComplexe2 = () => {
     .then((epoque) =>
       collecterArtefact2("Épée de chevalier", epoque).catch((erreur) => {
         console.error(erreur.message);
-        return null;
+        return epoque;
       })
     )
     .then(() => voyagerTemps2("Romaine"))
     .then((epoque) =>
       collecterArtefact2("Bouclier romain", epoque).catch((erreur) => {
         console.error(erreur.message);
-        return null;
+        return epoque;
       })
     )
-    .then(() =>
-      collecterArtefact2("Épée romaine", "Romaine").catch((erreur) => {
+    .then((epoque) =>
+      collecterArtefact2("Épée romaine", epoque).catch((erreur) => {
         console.error(erreur.message);
         return null;
       })
@@ -260,7 +265,7 @@ const missionTemporelleComplexe2 = () => {
     .then(() => console.log("🏁 Fin de la mission temporelle"));
 };
 
-// missionTemporelleComplexe2();
+missionTemporelleComplexe2();
 
 // Exercice 5 : La Mission Finale Asynchrone
 
@@ -314,11 +319,11 @@ const missionTemporelleComplexe3 = async () => {
   console.log("🏁 Fin de la mission temporelle");
 };
 
-missionTemporelleComplexe3();
+// missionTemporelleComplexe3();
 
 // Exercice 6 : Chargement asynchrone des époques
 
-fetch("../data/epoques.json")
+fetch("./data/epoques.json")
   .then((reponse) => reponse.json())
   .then((data) => {
     creerLesChoixEpoque(data);
